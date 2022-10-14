@@ -1,12 +1,12 @@
-# eiffel-remrem-library
+# Eiffel-REMRem-Library
 
-Eiffel Remrem library is implemented to interact with Remrem service
+Eiffel REMReM library is implemented to interact with REMReM service
 # About this repository
 The contents of this repository are licensed under the [Apache License 2.0](./LICENSE).
 
 # Introduction
 
-Eiffel Remrem library is used to send the request and get the response from the configured remrem service. with the help of this library we can interact with the remrem service.
+Eiffel REMReM library is used to send the request and get the response from the configured REMReM service. with the help of this library we can interact with the REMReM service.
 
 # Instalation
 
@@ -25,7 +25,7 @@ For supporting latest features, Eiffel REMReM Library should use the latest vers
 
 # Configuration
 
-Before running the java library we have to configure the working remrem-service instances and credentials in TestOperations class. If we want to run the multiple remrem clients test cases we have to add differant working remrem-ports or we can give the same port to pass the test cases.
+Before running the java library we have to configure the working REMReM-service instances and credentials in TestOperations class. If we want to run the multiple REMReM clients test cases we have to add differant working REMReM-ports or we can give the same port to pass the test cases.
 
 Below are the Parameters:  
 
@@ -39,7 +39,7 @@ Below are the Parameters:
 
 # Usage
 
-If we want to send any request to remrem-service first we have to build remrem-client like this.
+If we want to send any request to REMReM-service first we have to build REMReM-client like this.
 
     RemremClient client = RemremClient.builder()  
             .setUrl(URL)  
@@ -58,7 +58,7 @@ We can set the additional features if we want, like...
             .setFeature(RemremClientBuilder.FEATURE_ROUTING_KEY, "#")  
             .build();
 
-Once after building the client we can send the request to remrem-service.
+Once after building the client we can send the request to REMReM-service.
 
 Examples:  
 
