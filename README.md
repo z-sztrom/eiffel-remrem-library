@@ -116,12 +116,11 @@ exceptions would have to be handled. The original exception can be obtained by
 
 ## Builder
 Builder pattern is used to create instances of `RemremClient`.
-A default, build-in, builder is provided by method `RemremClient.builder()`.
-
-    RemremClient.builder()
+A default, build-in, builder is provided by method `RemremClient.builder()` as
+exemplified above.
 
 The library supports customization of builder and created `RemremClient`s. 
-Overloaded variant of `builder()` method supports that.
+Overloaded variant of method `builder()` exists to support that.
 
     RemremClientBuilder builder(String builderClassName, ClassLoader classLoader)
 
