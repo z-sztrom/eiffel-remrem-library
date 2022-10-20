@@ -1,3 +1,4 @@
+
 # REMReM Client Library
 
 This library provides implementation of client side of [REMReM Generate](https://github.com/eiffel-community/eiffel-remrem-generate) and [REMReM Publish](https://github.com/eiffel-community/eiffel-remrem-publish) REST APIs. Its main purpose is to hide the underlying REST API calls and enable user to focus primarily on [Eiffel events](https://github.com/eiffel-community/eiffel). They can be handled in both forms:
@@ -63,6 +64,7 @@ same operation can be performed providing corresponding instance of `Event` obje
 
     Event event = /* event initialization */;
     EventPublishResponse response = client.publish(event);
+
 
 ## `AutoCloseable`
 `RemremClient` implements `AutoCloseable` interface and thanks to that it can 
