@@ -95,7 +95,8 @@ Note that `RemremException` may be used as a wrapper of other exceptions, e.g.
 `IOException`.
 The idea behind that is to simplify exceptions handling, because some methods
 would declare several exceptions in `throws` clause and all the declared
-exceptions would have to be handled.
+exceptions would have to be handled. The original exception can be obtained by
+`getCause()` method of caught exception. 
 
     try (RemremClient client = RemremClient.builder()
             .setUrl("https://localhost:8443")  
@@ -106,10 +107,35 @@ exceptions would have to be handled.
     }
     catch (RemremException e) {
         log.error("Cannot generate template: " + e.getMessage());
+        Exception cause = e.getCause();
+        if (cause != null)
+            log.debug("Originally thrown by: " + caught.getClass().getName());
     }
 
 ## Builder
-TBD
+Builder pattern is used to create instances of `RemremClient`.
+A default, build-in, builder is provided by method `RemremClient.builder()`.
+
+    RemremClient.builder()
+
+The library supports customization of builder and created `RemremClient`s. 
+Overloaded variant of `builder()` method supports that.
+
+    RemremClientBuilder builder(String builderClassName, ClassLoader classLoader)
+
+Utilization of the method is quite simple. The target code creating a new instance
+of `RemremClient` differs only slightly from application of a default builder.
+
+    String creatorClassName = "CustomRemremClientBuilder";
+    ClassLoader classLoader = getClass().getClassLoader();
+
+    RemremClient client = RemremClient.builder(creatorClassName, classLoader)
+        .setUrl(URL)
+        .setAuthentication(USER, PASSWORD)
+        .build());
+
+Of course, implementation of `CustomRemremClientBuilder` isn't included as it is
+out of the scope of the example above.
 
 # Features and Options
 Available functions and options should be described here:
