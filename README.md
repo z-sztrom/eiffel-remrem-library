@@ -97,8 +97,7 @@ Note that `RemremException` may be used as a wrapper of other exceptions, e.g.
 `IOException`.
 The idea behind that is to simplify exceptions handling, because some methods
 would declare several exceptions in `throws` clause and all the declared
-exceptions would have to be handled. The original exception can be obtained by
-`getCause()` method of caught exception. 
+exceptions would have to be handled.
 
     try (RemremClient client = RemremClient.builder()
             .setUrl("https://localhost:8443")  
@@ -109,44 +108,34 @@ exceptions would have to be handled. The original exception can be obtained by
     }
     catch (RemremException e) {
         log.error("Cannot generate template: " + e.getMessage());
-        Exception cause = e.getCause();
-        if (cause != null)
-            log.debug("Originally thrown by: " + caught.getClass().getName());
     }
 
 ## Builder
-Builder pattern is used to create instances of `RemremClient`.
-A default, build-in, builder is provided by method `RemremClient.builder()` as
-exemplified above.
-
-The library supports customization of builder and created `RemremClient`s. 
-Overloaded variant of method `builder()` exists to support that.
-
-    RemremClientBuilder builder(String builderClassName, ClassLoader classLoader)
-
-Utilization of the method is quite simple. The target code creating a new instance
-of `RemremClient` differs only slightly from application of a default builder.
-
-    String creatorClassName = "CustomRemremClientBuilder";
-    ClassLoader classLoader = getClass().getClassLoader();
-
-    RemremClient client = RemremClient.builder(creatorClassName, classLoader)
-        .setUrl(URL)
-        .setAuthentication(USER, PASSWORD)
-        .build());
-
-Of course, implementation of `CustomRemremClientBuilder` isn't included as it is
-out of the scope of the example above.
+TBD
 
 # Features and Options
 Available functions and options should be described here:
-* FEATURE_ROUTING_KEY
-* FEATURE_PARSE_DATA
-* FEATURE_FAIL_IF_MULTIPLE_FOUND
-* FEATURE_FAIL_IF_NONE_FOUND
-* FEATURE_LOOKUP_IN_EXTERNAL_ERS
-* FEATURE_LOOKUP_LIMIT
-* FEATURE_OK_TO_LEAVE_OUT_INVALID_OPTIONAL_FIELDS
+* FEATURE_URL:                REMReM service url
+* FEATURE_USERNAME:           username (for authentication)               
+* FEATURE_PASSWORD:           password (for authentication)
+* FEATURE_MESSAGE_PROTOCOL:   message protocol to request the REMReM services (Default value is, mp = eiffelsemantics)
+* FEATURE_MESSAGE_TYPE:       eventType to generate/publish the event
+* FEATURE_INSECURE:           if the value is False the connection will become insecure and it will ignore the certificate trust issues
+* FEATURE_RETRY_COUNT:        no of retries
+* FEATURE_USER_DOMAIN:        from which domain routingkey is prepared (Examples: eiffel920, eiffel921,...)
+* FEATURE_TAG:                we are using always notag(Reserved for future purpose)
+* FEATURE_ROUTING_KEY:        it is a message attribute, used to route the messages to queue
+* FEATURE_RECIPIENT:          To add the REMReM recipient (we can add the multiple number of recipients, to support the library for multiple REMReM instances)
+
+
+| Options                         | Default Value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                |
+|---------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FEATURE_FAIL_IF_MULTIPLE_FOUND:  | false         | If value is set to true and multiple event ids are found through any of the provided lookup definitions, then no event will be generated. |
+| FEATURE_FAIL_IF_NONE_FOUND:      | false         | If value is set to true and no event id is found through (at least one of) the provided lookup definitions, then no event will be generated. |
+| FEATURE_LOOKUP_IN_EXTERNAL_ERS:             | false          | If value is set to true then REMReM will query external ERs and not just the locally used ER. The reason for the default value to be False is to decrease the load on external ERs. Here local ER means Single ER which is using REMReM generate.  External ER means multiple ER's which are configured in Local ER.|
+| FEATURE_LOOKUP_LIMIt:            | 1             | The number of events returned, through any lookup definition given, is limited to this number. |
+| FEATURE_OK_TO_LEAVE_OUT_INVALID_OPTIONAL_FIELDS   | false      | If value is set to true it will remove the optional event feilds from the input event data that does not validated successfully.
+| parseData     | false            |                                                                          |
 
 # License
 The contents of this repository are licensed under the [Apache License 2.0](./LICENSE).
