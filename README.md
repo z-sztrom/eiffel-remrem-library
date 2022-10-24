@@ -111,7 +111,30 @@ exceptions would have to be handled.
     }
 
 ## Builder
-TBD
+Builder pattern is used to create instances of `RemremClient`.
+A default, build-in, builder is provided by method `RemremClient.builder()`.
+
+    RemremClient.builder()
+
+The library supports customization of builder and created `RemremClient`s.
+Overloaded variant of `builder()` method supports that.
+
+    RemremClientBuilder builder(String builderClassName, ClassLoader classLoader)
+
+Utilization of the method is quite simple. The target code creating a new instance
+of `RemremClient` differs only slightly from application of a default builder.
+
+    String creatorClassName = "CustomRemremClientBuilder";
+    ClassLoader classLoader = getClass().getClassLoader();
+
+    RemremClient client = RemremClient.builder(creatorClassName, classLoader)
+        .setUrl(URL)
+        .setAuthentication(USER, PASSWORD)
+        .build());
+
+Of course, implementation of `CustomRemremClientBuilder` isn't included as it is
+out of the scope of the example above.
+
 
 # Features and Options
 Available functions and options should be described here:
