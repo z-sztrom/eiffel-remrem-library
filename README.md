@@ -180,6 +180,15 @@ of `RemremClient` differs only slightly from application of a default builder.
         .setAuthentication(USER, PASSWORD)
         .build());
 
+Existence of method `setFeature()` enables to pass custom features and values
+to builder transparently.
+
+    RemremClient client = RemremClient.builder(creatorClassName, classLoader)
+        .setUrl(URL)
+        .setAuthentication(USER, PASSWORD)
+        .setFeature("custom_feature", "custom_value")
+        .build());
+
 Of course, implementation of `CustomRemremClientBuilder` isn't included as it is
 out of the scope of the example above.
 
