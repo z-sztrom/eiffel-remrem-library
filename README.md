@@ -112,10 +112,58 @@ exceptions would have to be handled.
 
 ## Builder
 Builder pattern is used to create instances of `RemremClient`.
-A default, build-in, builder is provided by method `RemremClient.builder()`.
+
+### Default Builder
+A default, build-in, builder is provided by method `RemremClient.builder()` and 
+is implemented by class `RemremClientBuilder`.
+
+It supports all the features and options provided by
+[Eiffel REMReM Generate](https://github.com/eiffel-community/eiffel-remrem-generate)
+and
+[Eiffel REMReM Publish](https://github.com/eiffel-community/eiffel-remrem-publish) 
+services.
+The builder defines methods for the most commonly used features and options, e.g.
+`setUrl()`, `setAuthentication`, etc.
 
     RemremClient.builder()
+        .setUrl("https://localhost:8443")  
+        .setAuthentication("eiffel", "publicly-unknow")
+        .build();
 
+However, not all the features have corresponding method defined.
+Each feature can be set or get using method `setFeature()`, `getFeature()`,
+respectively. For example, the above piece of code is equivalent to the code below.
+
+    RemremClient.builder()
+        .setFeature(FEATURE_URL, "https://localhost:8443")
+        .setFeature(FEATURE_USERNAME, "eiffel")
+        .setFeature(FEATURE_PASSWORD, "publicly-unkonw")
+        .build();
+
+All features are defined as constants---starting by 
+`FEATURE_`---by class `RemremClientBuilder`. 
+
+* `FEATURE_URL`                URL of REMReM service.
+* `FEATURE_USERNAME`           Username (for authentication).
+* `FEATURE_PASSWORD`           Password (for authentication).
+* `FEATURE_MESSAGE_PROTOCOL`   Message protocol to request the REMReM services. 
+                               Default value is `eiffelsemantics`.
+* `FEATURE_MESSAGE_TYPE`       Event type to generate/publish.
+* `FEATURE_INSECURE`           If the value is `true` the connection ignores
+                               TLS handshake. This is useful to communicate with
+                               a local service, where certificates are not installed.
+* `FEATURE_RETRY_COUNT`        Number of retries.
+* `FEATURE_USER_DOMAIN`        TODO: STRANGE... from which domain routingkey is prepared (Examples eiffel920, eiffel921,...)
+* `FEATURE_TAG`                Reserved for future. Value `notag` is used.
+* `FEATURE_ROUTING_KEY`        A message attribute used to route the messages to queue.
+* `FEATURE_FAIL_IF_MULTIPLE_FOUND`  If set to `true` and multiple event IDs are found through any of the provided lookup definitions, then no event will be generated. Default value is `false`.
+* `FEATURE_FAIL_IF_NONE_FOUND`      If set to `true` and no event ID is found through (at least one of) the provided lookup definitions, then no event will be generated. Default value is `false`.
+* `FEATURE_LOOKUP_IN_EXTERNAL_ERS`  If set to `true` then REMReM will query external ERs and not just the locally used ER. The reason for the default value to be `false` is to decrease the load on external ERs. Here local ER means single ER which is using REMReM generate. External ER means multiple ER's which are configured in local ER. Default value is `false`.
+* `FEATURE_LOOKUP_LIMIt`            The number of events returned, through any lookup definition given, is limited to this number. Default value is `1`.
+* `FEATURE_OK_TO_LEAVE_OUT_INVALID_OPTIONAL_FIELDS`   If set to `true` it removes the optional event fields from the input event data that does not validate successfully.
+* `parseData` TODO: ???
+
+### Custom Builder
 The library supports customization of builder and created `RemremClient`s.
 Overloaded variant of `builder()` method supports that.
 
@@ -136,29 +184,6 @@ Of course, implementation of `CustomRemremClientBuilder` isn't included as it is
 out of the scope of the example above.
 
 
-# Features and Options
-Available functions and options should be described here:
-* FEATURE_URL:                REMReM service url
-* FEATURE_USERNAME:           username (for authentication)               
-* FEATURE_PASSWORD:           password (for authentication)
-* FEATURE_MESSAGE_PROTOCOL:   message protocol to request the REMReM services (Default value is, mp = eiffelsemantics)
-* FEATURE_MESSAGE_TYPE:       eventType to generate/publish the event
-* FEATURE_INSECURE:           if the value is False the connection will become insecure and it will ignore the certificate trust issues
-* FEATURE_RETRY_COUNT:        no of retries
-* FEATURE_USER_DOMAIN:        from which domain routingkey is prepared (Examples: eiffel920, eiffel921,...)
-* FEATURE_TAG:                we are using always notag(Reserved for future purpose)
-* FEATURE_ROUTING_KEY:        it is a message attribute, used to route the messages to queue
-* FEATURE_RECIPIENT:          To add the REMReM recipient (we can add the multiple number of recipients, to support the library for multiple REMReM instances)
-
-
-| Options                         | Default Value | Description                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|---------------------------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| FEATURE_FAIL_IF_MULTIPLE_FOUND:  | false         | If value is set to true and multiple event ids are found through any of the provided lookup definitions, then no event will be generated. |
-| FEATURE_FAIL_IF_NONE_FOUND:      | false         | If value is set to true and no event id is found through (at least one of) the provided lookup definitions, then no event will be generated. |
-| FEATURE_LOOKUP_IN_EXTERNAL_ERS:             | false          | If value is set to true then REMReM will query external ERs and not just the locally used ER. The reason for the default value to be False is to decrease the load on external ERs. Here local ER means Single ER which is using REMReM generate.  External ER means multiple ER's which are configured in Local ER.|
-| FEATURE_LOOKUP_LIMIt:            | 1             | The number of events returned, through any lookup definition given, is limited to this number. |
-| FEATURE_OK_TO_LEAVE_OUT_INVALID_OPTIONAL_FIELDS   | false      | If value is set to true it will remove the optional event feilds from the input event data that does not validated successfully.
-| parseData     | false            |                                                                          |
 
 # License
 The contents of this repository are licensed under the [Apache License 2.0](./LICENSE).
